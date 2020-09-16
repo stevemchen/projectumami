@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:umai/ui/screens/login.dart';
+import 'package:umai/ui/screens/theme.dart';
 
 class RecipesApp extends StatelessWidget {
   @override
@@ -8,13 +8,11 @@ class RecipesApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
+      theme: buildTheme(), // New code
       initialRoute: '/login',
       routes: {
-        // If you're using navigation routes, Flutter needs a base route.
-        // We're going to change this route once we're ready with
-        // implementation of HomeScreen.
-        '/': (context) => LoginScreen(),
-        '/login': (context) => LoginScreen(),
+        '/': (context) => LoginPage(),
+        '/login': (context) => LoginPage(),
       },
     );
   }
