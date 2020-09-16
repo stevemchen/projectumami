@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../sign_in.dart';
+import 'first_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       return Text(
         'Umami',
         style: Theme.of(context).textTheme.headline5,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       );
     }
 
@@ -84,15 +85,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class FirstScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(color: Colors.blue[100]),
     );
   }
 }
