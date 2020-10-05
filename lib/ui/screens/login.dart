@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../sign_in.dart';
 import 'first_screen.dart';
 
@@ -14,7 +13,7 @@ class _LoginPageState extends State<LoginPage> {
     BoxDecoration _buildBackground() {
       return BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/t0306_003.jpg"),
+          image: AssetImage("assets/wp5289083.jpg"),
           fit: BoxFit.cover,
         ),
       );
@@ -34,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               _buildText(),
               SizedBox(height: 50),
@@ -48,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _signInButton() {
     return OutlineButton(
-      splashColor: Colors.grey,
+      splashColor: Colors.blue,
       onPressed: () {
         signInWithGoogle().then((result) {
           if (result != null) {
@@ -61,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
         });
+        // dbSave();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
             )
