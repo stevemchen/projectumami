@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:umai/ui/screens/login.dart';
-import 'package:umai/sign_in.dart';
+import 'package:umami/ui/screens/login.dart';
+import 'package:umami/sign_in.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
