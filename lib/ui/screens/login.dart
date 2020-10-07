@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:umami/ui/screens/search_screen.dart';
 import '../../sign_in.dart';
 import 'first_screen.dart';
 
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return FirstScreen();
+                  return SearchScreen();
                 },
               ),
             );
