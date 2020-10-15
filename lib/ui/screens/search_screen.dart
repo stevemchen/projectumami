@@ -43,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
   //It then pushes the Meal Screen onto the stack with Navigator.push
   void _searchMealPlan() async {
     MealPlan mealPlan = await ApiService.instance.generateMealPlan(
-      targetCalories: _targetCalories.toInt(),
+      // targetCalories: _targetCalories.toInt(),
       diet: _diet,
     );
     Navigator.push(

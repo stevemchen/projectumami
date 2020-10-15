@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:umami/DropDown.dart';
+import 'package:umami/IngredientScreen.dart';
+import 'package:umami/search_recipe.dart';
+import 'package:umami/ui/screens/first_screen.dart';
 import 'package:umami/ui/screens/search_screen.dart';
 import '../../sign_in.dart';
 import 'first_screen.dart';
+import 'package:umami/IngredientScreen.dart';
+import 'package:umami/DropDown.dart';
+import 'package:umami/ListDemo.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -55,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return SearchScreen();
+                  return SearchRecipe();
                 },
               ),
             );
