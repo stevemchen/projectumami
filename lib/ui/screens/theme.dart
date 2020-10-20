@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const PrimaryColor =Color(0xffFFAB2E);
+
 ThemeData buildTheme() {
   // We're going to define all of our font styles
   // in this method:

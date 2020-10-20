@@ -4,6 +4,8 @@ import 'package:umami/app.dart';
 import 'package:umami/client/hive_names.dart';
 import 'package:umami/models/user_model.dart';
 import 'package:umami/app.dart';
+import 'package:umami/ui/screens/Results.dart';
+import 'package:umami/ui/screens/first_screen.dart';
 import 'ui/screens/login.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: ResultsPage(),
     );
   }
 }

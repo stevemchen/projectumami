@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../sign_in.dart';
 import 'first_screen.dart';
+import 'package:umami/app.dart';
+import 'package:umami/ui/screens/login.dart';
+import 'package:umami/ui/screens/first_screen.dart';
+import 'package:umami/ui/screens/Results.dart';
+import 'package:umami/ui/screens/theme.dart';
+import 'package:umami/main.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   @override
   Widget build(BuildContext context) {
     BoxDecoration _buildBackground() {
@@ -33,11 +40,19 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 120),
               _buildText(),
-              SizedBox(height: 50),
+              SizedBox(height: 375),
               _signInButton(),
+              FlatButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/results');
+                },
+                icon: Icon(Icons.arrow_forward),
+                label: Text('Continue as Guest'),
+              ),
             ],
           ),
         ),

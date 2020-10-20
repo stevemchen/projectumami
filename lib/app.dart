@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:umami/ui/screens/login.dart';
+import 'package:umami/ui/screens/first_screen.dart';
+import 'package:umami/ui/screens/Results.dart';
 import 'package:umami/ui/screens/theme.dart';
 
 class RecipesApp extends StatelessWidget {
@@ -12,7 +14,8 @@ class RecipesApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/': (context) => LoginPage(),
-        '/login': (context) => LoginPage(),
+        '/firstscreen': (context) => FirstScreen(),
+        '/results': (context) => ResultsPage(),
       },
     );
   }
