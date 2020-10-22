@@ -39,7 +39,7 @@ class Bad {
         title: json['title'],
         amount: json['amount'],
         indented: json['indented'],
-        percentOfDailyNeeds: json['percentOfDailyNeeds']);
+        percentOfDailyNeeds: json['percentOfDailyNeeds'].toDouble());
   }
 }
 
@@ -56,6 +56,6 @@ class Good {
         title: json['title'],
         amount: json['amount'],
         indented: json['indented'],
-        percentOfDailyNeeds: json['percentOfDailyNeeds']);
+        percentOfDailyNeeds: json['percentOfDailyNeeds'].toDouble());
   }
 }

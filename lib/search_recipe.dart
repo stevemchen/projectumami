@@ -313,14 +313,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
               onPressed: () {
                 _moveUp();
               }),
-      /* appBar: AppBar(
-        title:Text('Search food recipes'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.video_library,color:Colors.white), onPressed: (){
-            
-          })
-        ],
-      ), */
       body: SafeArea(
         child: Container(
           child: ListView(
@@ -405,26 +397,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                       fontSize: 15)))),
                     ],
                   )),
-              /*   Center(
-                  child: Text('$url', style: TextStyle(color: Colors.black45))),
-              Container(
-                height:35,
-                padding: EdgeInsets.symmetric(horizontal:10),
-                width:double.infinity,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    _buildItemRow(context:context, icon:Icons.video_library, color:Colors.indigo.shade300,title:'Video'),
-                    _buildItemRow(context:context,icon:Icons.video_library, color:Colors.red.shade300,title:'Youtube'),
-                    _buildItemRow(context:context, icon:Icons.video_library, color:Colors.purple.shade300,title:'Youtube'),
-                    _buildItemRow(context:context, icon:Icons.video_library, color:Colors.green.shade300,title:'Youtube'),
-                    _buildItemRow(context:context, icon:Icons.video_library, color:Colors.indigo.shade300,title:'Youtube'),
-                  ],
-                ),
-              ),   */
-
-              // DISPLAY TEXT AND YOUTUBE ICON
-
               Stack(children: <Widget>[
                 Container(
                   height: MediaQuery.of(context).size.height - 122,
@@ -472,7 +444,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                                             .image)),
                                           ),
                                           subtitle: Text(
-                                              'Servings: ${search.result[index].servings}    ReadyInMinutes: ${search.result[index].readyInMinutes} min'),
+                                              'Servings: ${search.result[index].servings}    Prep Time: ${search.result[index].readyInMinutes} min'),
                                           title: Text(
                                               '-ID: ${search.result[index].id} - ${search.result[index].title} - ${search.totalResults.toString()}')),
                                     ),

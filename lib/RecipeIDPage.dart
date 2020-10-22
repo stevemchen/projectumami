@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:umami/ProductionInfo.dart';
+import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:umami/ui/screens/recipe_screen.dart';
 
 class RecipeIdPage extends StatelessWidget {
   @override
@@ -226,8 +229,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   //rout to move to other screen
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          ProductInforPage(),
+      pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;

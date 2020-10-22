@@ -42,7 +42,7 @@ class ApiService {
       _baseURL,
       // '/recipes/mealplans/generate',
       '/recipes/findByIngredients',
-      parameters,
+      // parameters,
     );
 
     //Our header specifies that we want the request to return a json object
@@ -87,7 +87,7 @@ class ApiService {
     Uri uri = Uri.https(
       _baseURL,
       '/recipes/$id/information',
-      parameters,
+      // parameters,
     );
 
     //And also specify that we want our header to return a json object
@@ -101,6 +101,24 @@ class ApiService {
       Map<String, dynamic> data = json.decode(response.body);
       Recipe recipe = Recipe.fromMap(data);
       return recipe;
+    } catch (err) {
+      throw err.toString();
+    }
+  }
+
+  Future fetchID(String id) async {
+    Map<String, String> parameters = {
+      'includeNutrition': 'false',
+      'apiKey': API_KEY,
+    };
+    Uri uri = Uri.https(_baseURL, '/recipes/$id/information', parameters);
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      var response = await http.get(uri, headers: headers);
+      Map<String, dynamic> data = json.decode(response.body);
     } catch (err) {
       throw err.toString();
     }

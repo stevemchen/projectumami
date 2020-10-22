@@ -19,7 +19,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     return Scaffold(
       //AppBar is widget.mealType
       appBar: AppBar(
-        title: Text(widget.mealType),
+        title: Text('Web View'),
       ),
       /**
        * Body is a Webview. Ensure you have imported webview flutter.
@@ -28,7 +28,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
        * javascriptMode - set to unrestricted so as JS can load in the webview
        */
       body: WebView(
-        initialUrl: widget.recipe.spoonacularSourceUrl,
+        initialUrl:
+            "https://www.foodista.com/recipe/G4XPLKBW/chicken-65-chicken-marinaded-in-traditional-indian-spices-and-deep-fried", //just try hardcoding it here
         //JS unrestricted, so that JS can execute in the webview
         javascriptMode: JavascriptMode.unrestricted,
       ),
