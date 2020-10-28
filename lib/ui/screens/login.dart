@@ -4,7 +4,7 @@ import 'first_screen.dart';
 import 'package:umami/app.dart';
 import 'package:umami/ui/screens/login.dart';
 import 'package:umami/ui/screens/first_screen.dart';
-import 'package:umami/ui/screens/Results.dart';
+import 'package:umami/ui/screens/results.dart';
 import 'package:umami/ui/screens/theme.dart';
 import 'package:umami/main.dart';
 
@@ -48,7 +48,11 @@ class _LoginPageState extends State<LoginPage> {
               _signInButton(),
               FlatButton.icon(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/results');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {return ResultsPage();}
+                    ),
+                  );
                 },
                 icon: Icon(Icons.arrow_forward),
                 label: Text('Continue as Guest'),
