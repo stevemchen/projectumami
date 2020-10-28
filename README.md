@@ -1,16 +1,10 @@
-# umai
+# Project Umami
 
-A new Flutter project.
+Next-Generation Mobile Recipe Suggester
 
-## Getting Started
+### Mission Statement
+We aim to unlock the culinary potential of everyone and connect people with food by allowing for ingredients to be transformed into gourmet recipes while decreasing food waste and frustrations for new-time chefs. 
 
-This project is a starting point for a Flutter application.
+### Elevator Pitch
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Project Umami aims to allow a user to input a list of ingredients that they have and receive a tailored selection of recipes that incorporate said ingredients with  support for filtering based on features such as cuisine or preparation time. 
