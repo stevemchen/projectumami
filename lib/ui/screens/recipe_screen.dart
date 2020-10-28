@@ -1,21 +1,26 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:umami/models/recipe_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:umami/spoonacular.dart';
 
 class RecipeScreen extends StatefulWidget {
   //This stateful widget page takes in String mealType and Recipe recipe
   final String mealType;
+  final int id;
   final Recipe recipe;
 
-  RecipeScreen({this.mealType, this.recipe});
+  RecipeScreen({this.mealType, this.id, this.recipe});
 
   @override
   _RecipeScreenState createState() => _RecipeScreenState();
 }
 
 class _RecipeScreenState extends State<RecipeScreen> {
+
   @override
   Widget build(BuildContext context) {
+    print("widget url: " + this.widget.recipe.spoonacularSourceUrl);
     return Scaffold(
       //AppBar is widget.mealType
       appBar: AppBar(
@@ -28,11 +33,11 @@ class _RecipeScreenState extends State<RecipeScreen> {
        * javascriptMode - set to unrestricted so as JS can load in the webview
        */
       body: WebView(
-        initialUrl:
-            "https://www.foodista.com/recipe/G4XPLKBW/chicken-65-chicken-marinaded-in-traditional-indian-spices-and-deep-fried", //just try hardcoding it here
-        //JS unrestricted, so that JS can execute in the webview
+        initialUrl: this.widget.recipe.spoonacularSourceUrl,
         javascriptMode: JavascriptMode.unrestricted,
-      ),
+        onPageFinished: (value) { setState(() {
+          print("load finished");
+        });})
     );
   }
 }
