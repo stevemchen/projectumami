@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:umami/ProductionInfo.dart';
+import 'package:umami/models/recipe_model.dart';
+import 'package:umami/spoonacular.dart';
 import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:umami/ui/screens/recipe_screen.dart';
 
 class RecipeIdPage extends StatelessWidget {
   @override
@@ -43,8 +43,10 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 
   Future<IngredientID> futureIngre;
   //  Future<NutrientID> futureNutri;
+
   @override
   void initState() {
+    getOriginalRecipeURL();
     super.initState();
   }
 
@@ -70,6 +72,10 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
     } else {
       throw Exception('failed to load search nutrients recipe');
     }
+  }
+
+  getOriginalRecipeURL() async {
+    this.url = await retrieveRecipe(widget.id.toString());
   }
 
   @override
@@ -230,8 +236,11 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   //rout to move to other screen
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(
+        mealType: "1",
+        id: widget.id,
+        recipe: Recipe.fromMap({'spoonacularSourceUrl': url})),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
         var curve = Curves.ease;
