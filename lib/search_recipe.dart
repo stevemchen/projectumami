@@ -213,7 +213,12 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
     print('url search: $url');
     print('total Search: $totalResult');
     print('clickable: $isClickable');
-    if (totalResult < 10) {
+    if (totalResult == 0) {
+      print("dumbass");
+      setState(() {
+        isFindButton = false;
+      });
+    } else if (totalResult < 10) {
       setState(() {
         isFindButton = false;
       });
@@ -408,6 +413,14 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                       if (snapshot.hasData) {
                         Search search = snapshot.data;
                         totalResult = search.totalResults;
+                        if (totalResult == 0) {
+                          return Center(
+                              child: Text(
+                            "Wow you managed to return 0 results. That's pretty impressive. Please search again with less ingredients",
+                            style: new TextStyle(
+                                fontSize: 18.0, color: Colors.red),
+                          ));
+                        }
 
                         return ListView.builder(
                             itemCount: search.result.length,

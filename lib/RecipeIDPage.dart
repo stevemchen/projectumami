@@ -75,6 +75,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: true,
         floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blue,
             tooltip: 'Product Information',
@@ -132,7 +133,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
               ]),
               Container(
                 padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height + 110,
+                height: MediaQuery.of(context).size.height + 210,
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
