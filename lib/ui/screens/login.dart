@@ -55,6 +55,17 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.blue,
       onPressed: () {
+        // Broke firebase - using this as a temporary bypass
+        // If I forget to delete before push, please delete the following lines
+        /* begin */
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return SearchRecipe();
+        //     },
+        //   ),
+        // );
+        /* end */
         signInWithGoogle().then((result) {
           if (result != null) {
             Navigator.of(context).push(
