@@ -122,7 +122,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   int _positionTile = 0;
 
   final String baseUrl = 'https://api.spoonacular.com/recipes/search?query=';
-  final String key = "&apiKey=45eaba7f12a54861a03e0177818c82c0";
+  final String key = "&apiKey=46b60620dcee4f78aba8730bd9f9fcae";
   String url = "";
   String url2;
   String number = "&number=";

@@ -7,6 +7,7 @@ import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -34,11 +35,11 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   String title;
   String baseUrl = "https://api.spoonacular.com/recipes/";
   String keyID =
-      "/ingredientWidget.json?apiKey=45eaba7f12a54861a03e0177818c82c0";
+      "/ingredientWidget.json?apiKey=46b60620dcee4f78aba8730bd9f9fcae";
   String url;
   String baseUrl2 = "https://api.spoonacular.com/recipes/";
   String keyID2 =
-      "/nutritionWidget.json?apiKey=45eaba7f12a54861a03e0177818c82c0";
+      "/nutritionWidget.json?apiKey=46b60620dcee4f78aba8730bd9f9fcae";
   String url2;
 
   Future<IngredientID> futureIngre;
@@ -88,7 +89,11 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
             elevation: 10,
             child: Center(child: Icon(Icons.pie_chart, color: Colors.white)),
             onPressed: () {
-              Navigator.of(context).push(_createRoute());
+              // launch should be async, and we're supposed to call it in an
+              // async function. This is bad practice so far, but it works well
+              // enough.
+              launch(url);
+              // Navigator.of(context).push(_createRoute());
             }),
         appBar: AppBar(title: Text('Detail Recipe')),
         body: SafeArea(
@@ -234,6 +239,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   }
 
   //rout to move to other screen
+  // Obsolete. Not used as launch(url) from url_launcher is used
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(
