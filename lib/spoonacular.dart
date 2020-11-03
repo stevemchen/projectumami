@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 String apiKey = "46b60620dcee4f78aba8730bd9f9fcae";
 
 Future<Map> spoonacularGet(Map request) async {
+
   // Setup HTTP-GET URL
   String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey=";
   url += apiKey;
@@ -28,7 +29,7 @@ Future<Map> spoonacularGet(Map request) async {
     url += "&" + k + "=" + request["body"][k];
   }
 
-  // print(url);
+  print(url);
 
   var response = await http.get(url);
 
@@ -41,11 +42,9 @@ Future<Map> spoonacularGet(Map request) async {
 }
 
 Future<String> retrieveRecipe(String id) async {
+
   // Setup HTTP-GET URL
-  String url = "https://api.spoonacular.com/recipes/" +
-      id +
-      "/information?apiKey=" +
-      apiKey;
+  String url = "https://api.spoonacular.com/recipes/" + id + "/information?apiKey=" + apiKey;
 
   // Call HTTP GET
   var response = await http.get(url);
@@ -62,10 +61,7 @@ Future<String> retrieveRecipe(String id) async {
 
 Future<void> main() async {
   // Request body example
-  var request = {
-    "number": "2",
-    "body": {"includeIngredients": "apple, sugar"}
-  };
+  var request = {"number": "2", "body": {"includeIngredients": "apple, sugar"}};
   var result = await spoonacularGet(request);
   var recipe = retrieveRecipe(result["results"][0]["id"].toString());
 }
