@@ -8,8 +8,9 @@ import 'package:umami/models/Search.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:umami/ui/screens/theme.dart';
 import 'package:toast/toast.dart';
+import 'package:umami/Sidebar.dart';
 
 class SearchRecipe extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class SearchRecipe extends StatelessWidget {
             child: SearchRecipePage(), navigatorKey: navigatorKey),
         theme: ThemeData(
           fontFamily: 'Nunito',
-          accentColor: Colors.blue,
+          accentColor: PrimaryColor,
         ));
   }
 }
@@ -318,90 +319,146 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
               onPressed: () {
                 _moveUp();
               }),
+      appBar: AppBar(
+        title: Text(
+          'Umami',
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+        backgroundColor: PrimaryColor,
+        elevation: 0.0,
+      ),
+      drawer: SideBar(),
       body: SafeArea(
         child: Container(
           child: ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 10),
-                child: Text('FOOD RECIPES',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  topLeft: Radius.circular(10)),
-                              color: Colors.blue.shade400),
-                          child: Center(
-                              child: Icon(Icons.search,
-                                  size: 16, color: Colors.white))),
-                      Container(
-                          width:
-                              MediaQuery.of(context).size.width - 50 - 10 - 10,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
-                              border: Border.all(
-                                color: Colors.grey.withOpacity(.4),
-                                width: 1,
-                              )),
-                          child: TextField(
-                              // onSubmitted: _onSubmit(),
-                              // onChanged: _onChange(),
-                              // focusNode: _focusNode(),
-                              onChanged: (text) {
-                                _fecthSearch();
-                                setState(() {
-                                  query = _controller.text;
-                                  setState(() {
-                                    numberValue = 10;
-                                    url = baseUrl +
-                                        query +
-                                        number +
-                                        numberValue.toString() +
-                                        key;
-                                  });
-                                  //this code continue to get totalResult
-                                });
-                              },
-                              //auto focus alway open soft keyboard when init page
-                              controller: _controller,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.center,
-                              // maxLength: 20,
-                              autocorrect: false,
-                              textCapitalization: TextCapitalization.words,
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10.0, top: 10),
+              //   child: Text('FOOD RECIPES',
+              //       style: TextStyle(
+              //         color: Colors.blue,
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400,
+              //       )),
+              // ),
+              // Container(
+              //     padding: EdgeInsets.all(10),
+              //     height: 60,
+              //     width: double.infinity,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: <Widget>[
+              //         Container(
+              //             height: 50,
+              //             width: 50,
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.only(
+              //                     bottomLeft: Radius.circular(10),
+              //                     topLeft: Radius.circular(10)),
+              //                 color: Colors.blue.shade400),
+              //             child: Center(
+              //                 child: Icon(Icons.search,
+              //                     size: 16, color: Colors.white))),
+              //         Container(
+              //             width:
+              //                 MediaQuery.of(context).size.width - 50 - 10 - 10,
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.only(
+              //                   bottomRight: Radius.circular(10),
+              //                   topRight: Radius.circular(10),
+              //                 ),
+              //                 border: Border.all(
+              //                   color: Colors.grey.withOpacity(.4),
+              //                   width: 1,
+              //                 )),
+              //             child: TextField(
+              //                 // onSubmitted: _onSubmit(),
+              //                 // onChanged: _onChange(),
+              //                 // focusNode: _focusNode(),
+              //                 onChanged: (text) {
+              //                   _fecthSearch();
+              //                   setState(() {
+              //                     query = _controller.text;
+              //                     setState(() {
+              //                       numberValue = 10;
+              //                       url = baseUrl +
+              //                           query +
+              //                           number +
+              //                           numberValue.toString() +
+              //                           key;
+              //                     });
+              //                     //this code continue to get totalResult
+              //                   });
+              //                 },
+              //                 //auto focus alway open soft keyboard when init page
+              //                 controller: _controller,
+              //                 keyboardType: TextInputType.text,
+              //                 textAlign: TextAlign.center,
+              //                 // maxLength: 20,
+              //                 autocorrect: false,
+              //                 textCapitalization: TextCapitalization.words,
+              //                 decoration: InputDecoration(
+              //                     border: InputBorder.none,
+              //                     suffixIcon: IconButton(
+              //                         icon: Icon(Icons.arrow_drop_down),
+              //                         onPressed: () {
+              //                           _showDropDown(context);
+              //                         }),
+              //                     // helperText: 'Search Recipe',
+              //                     hintText: 'Search Recipe Here',
+              //                     hintMaxLines: 1,
+              //                     hintStyle: TextStyle(
+              //                         color: Colors.grey.withOpacity(.4),
+              //                         fontSize: 15)))),
+              //       ],
+              //     )),
+              Stack(
+                children: [
+                  Container(
+                    height: (60.0),
+                    decoration: BoxDecoration(
+                      color: PrimaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 10,
+                    right: 10,
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 10.0),
+                          Expanded(
+                            child: TextField(
+                              onChanged: (value) {},
                               decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  suffixIcon: IconButton(
-                                      icon: Icon(Icons.arrow_drop_down),
-                                      onPressed: () {
-                                        _showDropDown(context);
-                                      }),
-                                  // helperText: 'Search Recipe',
-                                  hintText: 'Search Recipe here',
-                                  hintMaxLines: 1,
-                                  hintStyle: TextStyle(
-                                      color: Colors.grey.withOpacity(.4),
-                                      fontSize: 15)))),
-                    ],
-                  )),
+                                hintText: "Search",
+                                hintStyle: TextStyle(
+                                  color: PrimaryColor.withOpacity(0.5),
+                                ),
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Stack(children: <Widget>[
                 Container(
                   height: MediaQuery.of(context).size.height - 122,
@@ -513,29 +570,29 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                   'Load more 10+ recipe +$isClickable+$numberValue');
                             }
                           : null,
-                      child: Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(25),
-                              topRight: Radius.circular(25),
-                            ),
-                            gradient: isFindButton == true
-                                ? LinearGradient(
-                                    colors: [Colors.blue, Colors.blue.shade300])
-                                : LinearGradient(colors: [
-                                    Colors.red.shade600,
-                                    Colors.red.shade200
-                                  ])),
-                        child: Container(
-                            child: Center(
-                                child: Text('find more 10+',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)))),
-                      ),
+                      // child: Container(
+                      //   height: 50,
+                      //   width: 150,
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.only(
+                      //         bottomRight: Radius.circular(25),
+                      //         topRight: Radius.circular(25),
+                      //       ),
+                      //       gradient: isFindButton == true
+                      //           ? LinearGradient(
+                      //               colors: [Colors.blue, Colors.blue.shade300])
+                      //           : LinearGradient(colors: [
+                      //               Colors.red.shade600,
+                      //               Colors.red.shade200
+                      //             ])),
+                      //   // child: Container(
+                      //   //     child: Center(
+                      //   //         child: Text('find more 10+',
+                      //   //             style: TextStyle(
+                      //   //                 fontSize: 16,
+                      //   //                 fontWeight: FontWeight.bold,
+                      //   //                 color: Colors.white)))),
+                      // ),
                     ))
               ]),
             ],
