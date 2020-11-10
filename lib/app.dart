@@ -15,7 +15,9 @@ class RecipesApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/': (context) => LoginPage(),
-        '/login': (context) => LoginPage(),
+        '/firstscreen': (context) => FirstScreen(),
+        '/results': (context) => ResultsPage(),
+        '/settings': (context) => SettingsPage(),
       },
     );
   }
