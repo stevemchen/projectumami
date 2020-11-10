@@ -6,10 +6,12 @@ import 'package:umami/spoonacular.dart';
 import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 class RecipeIdPage extends StatelessWidget {
   @override
@@ -32,6 +34,7 @@ class RecipeIdPageMain extends StatefulWidget {
 }
 
 class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
+  String recipeURL;
   String title;
   String baseUrl = "https://api.spoonacular.com/recipes/";
   String keyID =
@@ -75,8 +78,29 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
     }
   }
 
-  getOriginalRecipeURL() async {
+  Future<String> getOriginalRecipeURL() async {
     this.url = await retrieveRecipe(widget.id.toString());
+    return this.url;
+  }
+
+  Future saveRecipe() async {
+    recipeURL = await getOriginalRecipeURL();
+    print('Storing ' + recipeURL.toString());
+    try {
+      await FireStoreService()
+          .addRecipe(SavedRecipe(widget.id, recipeURL.toString()));
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future getDocs() async {
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection("saved_recipes").get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      print(a.get('id'));
+    }
   }
 
   @override
@@ -95,7 +119,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
               launch(url);
               // Navigator.of(context).push(_createRoute());
             }),
-        appBar: AppBar(title: Text('Detail Recipe')),
+        appBar: AppBar(title: Text('Recipe Details')),
         body: SafeArea(
           child: ListView(
             children: <Widget>[
@@ -518,5 +542,28 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
                     color: Colors.black87,
                     fontSize: 14,
                     fontWeight: FontWeight.bold))));
+  }
+}
+
+class SavedRecipe {
+  final int id;
+  final String sourceurl;
+  SavedRecipe(this.id, this.sourceurl);
+  Map<String, dynamic> toJson() => {'id': id, 'url': sourceurl.toString()};
+}
+
+class FireStoreService {
+  final CollectionReference _recipesCollectionReference =
+  FirebaseFirestore.instance.collection("saved_recipes");
+  Future addRecipe(SavedRecipe recipe) async {
+    if (recipe.sourceurl == null) {
+      print('url was null');
+      exit(0);
+    }
+    try {
+      await _recipesCollectionReference.doc().set(recipe.toJson());
+    } catch (e) {
+      return e.message;
+    }
   }
 }

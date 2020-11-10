@@ -4,6 +4,7 @@ import 'package:umami/IngredientScreen.dart';
 import 'package:umami/search_recipe.dart';
 import 'package:umami/ui/screens/first_screen.dart';
 import 'package:umami/ui/screens/search_screen.dart';
+import 'package:umami/ui/screens/results.dart';
 import '../../sign_in.dart';
 import 'first_screen.dart';
 import 'package:umami/IngredientScreen.dart';
@@ -57,17 +58,22 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.blue,
       onPressed: () {
-        signInWithGoogle().then((result) {
-          if (result != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return SearchRecipe();
-                },
-              ),
-            );
-          }
-        });
+        // signInWithGoogle().then((result) {
+        //   if (result != null) {
+        //     Navigator.of(context).push(
+        //       MaterialPageRoute(
+        //         builder: (context) {
+        //           return SearchRecipe();
+        //         },
+        //       ),
+        //     );
+        //   }
+        // }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) {return SearchRecipePage();} //ResultsPage();}
+          ),
+        );
         // dbSave();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
