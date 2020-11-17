@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:umami/ProductionInfo.dart';
@@ -87,8 +89,8 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
     recipeURL = await getOriginalRecipeURL();
     print('Storing ' + recipeURL.toString());
     try {
-      await FireStoreService()
-          .addRecipe(SavedRecipe(widget.id, recipeURL.toString()));
+      await FireStoreService().addRecipe(SavedRecipe(widget.image, widget.id,
+          widget.title.toString(), recipeURL.toString()));
     } catch (e) {
       return e.message;
     }
@@ -546,10 +548,13 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 }
 
 class SavedRecipe {
+  final String image;
   final int id;
+  final String title;
   final String sourceurl;
-  SavedRecipe(this.id, this.sourceurl);
-  Map<String, dynamic> toJson() => {'id': id, 'url': sourceurl.toString()};
+  SavedRecipe(this.image, this.id, this.title, this.sourceurl);
+  Map<String, dynamic> toJson() =>
+      {'image': image, 'id': id, 'title': title, 'url': sourceurl.toString()};
 }
 
 class FireStoreService {
