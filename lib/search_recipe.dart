@@ -2,14 +2,11 @@ import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:umami/DropDown.dart';
 import 'package:umami/RecipeIDPage.dart';
 import 'package:umami/models/Search.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:toast/toast.dart';
 
 class SearchRecipe extends StatelessWidget {
   @override
@@ -86,9 +83,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
     'Vatican City'
   ];
   //dropdown
-  List<Company> _companies = Company.getCompanies();
-  List<DropdownMenuItem<Company>> _dropdownMenuItems;
-  Company _selectedCompany;
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
     List<DropdownMenuItem<Company>> items = List();
     for (Company company in companies) {
@@ -103,9 +97,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   }
 
   onChangeDropdownItem(Company selectedCompany) {
-    setState(() {
-      _selectedCompany = selectedCompany;
-    });
+    setState(() {});
   }
 
   //key for scaffold
@@ -118,7 +110,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   int offset = 0;
   String message = '';
   var response;
-  bool _isColorTile = false;
   int _positionTile = 0;
 
   final String baseUrl = 'https://api.spoonacular.com/recipes/search?query=';
@@ -189,8 +180,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
     //top snackbar
 
     //dropdown menu
-    _dropdownMenuItems = buildDropdownMenuItems(_companies);
-    _selectedCompany = _dropdownMenuItems[0].value;
     //focus node
 
     focusNode.unfocus();
@@ -238,38 +227,10 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
     }
   }
 
-  Future<Search> _fecthSearch2() async {
-    setState(() {
-      url = baseUrl + _controller.text + number + numberValue.toString() + key;
-    });
-    http.Response response = await http.get(url);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      return Search.fromJson(json);
-    } else {
-      throw Exception('failed to load search recipe');
-    }
-  }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  _onSubmit() {
-    setState(() {
-      query = _controller.text;
-      url = baseUrl + query + key;
-    });
-  }
-
-  _onChange() {
-    setState(() {
-      query = _controller.text;
-      url = baseUrl + query + key;
-      print('query: $query');
-    });
   }
 
   _moveDown() {
@@ -468,7 +429,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                             });
                       } else if (snapshot.hasError) {
                         return Center(
-                            child: Text('An error ocur: ${snapshot.error}'));
+                            child: Text('An error occured: ${snapshot.error}'));
                       }
                       return Center(
                         child: Container(
@@ -546,62 +507,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   }
 
   //row search video
-  _buildItemRow(
-      {String title, Color color, IconData icon, BuildContext context}) {
-    return GestureDetector(
-      onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoPage()));
-      },
-      child: Container(
-          margin: EdgeInsets.only(right: 10),
-          height: 35,
-          width: 100,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                color: Colors.blue.shade300,
-              )),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 2,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    height: 31,
-                    width: 31,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                        child: Icon(icon, color: Colors.white, size: 12))),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(title,
-                    style: TextStyle(color: Colors.black54, fontSize: 14))
-              ],
-            ),
-          )),
-    );
-  }
-
-  _useScaffoldSnackbar() {
-    return _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: new DecoratedBox(
-        decoration: BoxDecoration(),
-        child: Text('Load more 10 recipe'),
-      ),
-      duration: Duration(seconds: 3),
-    ));
-  }
-
-  _useToast() {
-    return Toast.show("load more 10 recipe", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-  }
 
   //show dropdown
   _showDropDown(BuildContext context) {

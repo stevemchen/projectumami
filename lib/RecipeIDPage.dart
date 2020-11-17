@@ -1,15 +1,12 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:umami/ProductionInfo.dart';
 import 'package:umami/models/recipe_model.dart';
 import 'package:umami/spoonacular.dart';
 import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
 import 'package:http/http.dart' as http;
-// import 'package:firebase/firestore.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -90,8 +87,8 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
     recipeURL = await getOriginalRecipeURL();
     print('Storing ' + recipeURL.toString());
     try {
-      await FireStoreService()
-          .addRecipe(SavedRecipe(widget.id, recipeURL.toString()));
+      await FireStoreService().addRecipe(SavedRecipe(widget.image, widget.id,
+          widget.title.toString(), recipeURL.toString()));
     } catch (e) {
       return e.message;
     }
@@ -556,10 +553,13 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 }
 
 class SavedRecipe {
+  final String image;
   final int id;
+  final String title;
   final String sourceurl;
-  SavedRecipe(this.id, this.sourceurl);
-  Map<String, dynamic> toJson() => {'id': id, 'url': sourceurl.toString()};
+  SavedRecipe(this.image, this.id, this.title, this.sourceurl);
+  Map<String, dynamic> toJson() =>
+      {'image': image, 'id': id, 'title': title, 'url': sourceurl.toString()};
 }
 
 class FireStoreService {
