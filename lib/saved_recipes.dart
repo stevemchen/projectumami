@@ -18,6 +18,7 @@ class SavedRecipePage extends StatelessWidget {
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             print("error");
+            return Container();
           } else {
             return Container(
               child: ListView.builder(

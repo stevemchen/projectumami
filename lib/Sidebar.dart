@@ -1,6 +1,7 @@
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:umami/saved_recipes.dart';
 import 'package:umami/ui/screens/settings.dart';
 // import '../../sign_in.dart';
 // import 'first_screen.dart';
@@ -147,7 +148,11 @@ class SideBar extends StatelessWidget {
           ListTile(
             title: Text('Saved Recipes'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) {return SavedRecipePage();}
+                ),
+              );
             },
           ),
           ListTile(

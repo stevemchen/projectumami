@@ -121,7 +121,19 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
               launch(url);
               // Navigator.of(context).push(_createRoute());
             }),
-        appBar: AppBar(title: Text('Recipe Details')),
+        appBar: AppBar(
+          title: Text('Recipe Details'),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                saveRecipe();
+              },
+              child: Text("Save"),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            )
+          ],
+        ),
         body: SafeArea(
           child: ListView(
             children: <Widget>[
