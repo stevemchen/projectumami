@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:umami/Sidebar.dart';
 import 'package:umami/models/meal_plan_model.dart';
 import 'package:umami/services/api_services.dart';
 import 'package:umami/Sidebar.dart';

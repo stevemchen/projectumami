@@ -304,6 +304,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
       key: _scaffoldKey,
       floatingActionButton: isEndScroll == false
           ? FloatingActionButton(
+          backgroundColor: PrimaryColor,
               elevation: 5,
               child: Center(
                   child: Icon(Icons.arrow_downward,
@@ -312,6 +313,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                 _moveDown();
               })
           : FloatingActionButton(
+              backgroundColor: PrimaryColor,
               elevation: 5,
               child: Center(
                   child:
@@ -525,7 +527,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                             });
                       } else if (snapshot.hasError) {
                         return Center(
-                            child: Text('An error ocur: ${snapshot.error}'));
+                            child: Text('An error ocurred: ${snapshot.error}'));
                       }
                       return Center(
                         child: Container(
@@ -539,14 +541,14 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                   ),
                 ),
                 Positioned(
-                    bottom: 50,
+                    bottom: 70,
                     child: GestureDetector(
                       onTap: isClickable
                           ? () {
                               //use toast
                               //use dropdown banner
                               DropdownBanner.showBanner(
-                                text: 'Load more 10 Recipe!',
+                                text: 'Loaded 10 more Recipe!',
                                 color: Colors.blue.shade400,
                                 textStyle: TextStyle(
                                     color: Colors.white,
@@ -570,29 +572,27 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                   'Load more 10+ recipe +$isClickable+$numberValue');
                             }
                           : null,
-                      // child: Container(
-                      //   height: 50,
-                      //   width: 150,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.only(
-                      //         bottomRight: Radius.circular(25),
-                      //         topRight: Radius.circular(25),
-                      //       ),
-                      //       gradient: isFindButton == true
-                      //           ? LinearGradient(
-                      //               colors: [Colors.blue, Colors.blue.shade300])
-                      //           : LinearGradient(colors: [
-                      //               Colors.red.shade600,
-                      //               Colors.red.shade200
-                      //             ])),
-                      //   // child: Container(
-                      //   //     child: Center(
-                      //   //         child: Text('find more 10+',
-                      //   //             style: TextStyle(
-                      //   //                 fontSize: 16,
-                      //   //                 fontWeight: FontWeight.bold,
-                      //   //                 color: Colors.white)))),
-                      // ),
+                      // uncommented following lines to regain functionality
+                      child: Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(25),
+                              topRight: Radius.circular(25),
+                            ),
+                            gradient: isFindButton == true
+                                ? LinearGradient(
+                                    colors: [PrimaryColor, PrimaryColor])
+                                : LinearGradient(colors: [PrimaryColor, PrimaryColor])),
+                        child: Container(
+                            child: Center(
+                                child: Text('find 10 more',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white)))),
+                      ),
                     ))
               ]),
             ],
