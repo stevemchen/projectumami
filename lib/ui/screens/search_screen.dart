@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:umami/models/meal_plan_model.dart';
 import 'package:umami/services/api_services.dart';
-
+import 'package:umami/Sidebar.dart';
 import '../../sign_in.dart';
 import 'login.dart';
 import 'meals_screen.dart';
+import 'package:umami/ui/screens/theme.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -60,6 +61,17 @@ class _SearchScreenState extends State<SearchScreen> {
     the page
     */
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+            'Umami',
+            style: TextStyle(
+              fontSize: 30,
+            ),
+        ),
+        backgroundColor: PrimaryColor,
+        elevation: 0.0,
+      ),
+      drawer: SideBar(),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -157,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 //FlatButton where onPressed() triggers a function called _searchMealPlan
                 FlatButton(
                   padding: EdgeInsets.symmetric(horizontal: 60, vertical: 8),
-                  color: Theme.of(context).primaryColor,
+                  color: PrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -172,26 +184,26 @@ class _SearchScreenState extends State<SearchScreen> {
                   //_searchMealPlan function is above the build method
                   onPressed: _searchMealPlan,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    signOutGoogle();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) {
-                      return LoginPage();
-                    }), ModalRoute.withName('/'));
-                  },
-                  color: Colors.deepPurple,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(fontSize: 25, color: Colors.white),
-                    ),
-                  ),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                )
+                // RaisedButton(
+                //   onPressed: () {
+                //     signOutGoogle();
+                //     Navigator.of(context).pushAndRemoveUntil(
+                //         MaterialPageRoute(builder: (context) {
+                //       return LoginPage();
+                //     }), ModalRoute.withName('/'));
+                //   },
+                //   color: Colors.deepPurple,
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Text(
+                //       'Sign Out',
+                //       style: TextStyle(fontSize: 25, color: Colors.white),
+                //     ),
+                //   ),
+                //   elevation: 5,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(40)),
+                // ),
               ],
             ),
           ),

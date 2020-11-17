@@ -1,14 +1,19 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:umami/ProductionInfo.dart';
 import 'package:umami/models/recipe_model.dart';
 import 'package:umami/spoonacular.dart';
 import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 class RecipeIdPage extends StatelessWidget {
   @override
@@ -35,11 +40,11 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   String title;
   String baseUrl = "https://api.spoonacular.com/recipes/";
   String keyID =
-      "/ingredientWidget.json?apiKey=45eaba7f12a54861a03e0177818c82c0";
+      "/ingredientWidget.json?apiKey=46b60620dcee4f78aba8730bd9f9fcae";
   String url;
   String baseUrl2 = "https://api.spoonacular.com/recipes/";
   String keyID2 =
-      "/nutritionWidget.json?apiKey=45eaba7f12a54861a03e0177818c82c0";
+      "/nutritionWidget.json?apiKey=46b60620dcee4f78aba8730bd9f9fcae";
   String url2;
 
   Future<IngredientID> futureIngre;
@@ -48,9 +53,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   @override
   void initState() {
     getOriginalRecipeURL();
-    getDocs();
     super.initState();
-    // saveRecipe();
   }
 
   Future<IngredientID> _fecthSearch() async {
@@ -79,7 +82,6 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 
   Future<String> getOriginalRecipeURL() async {
     this.url = await retrieveRecipe(widget.id.toString());
-    // print('URL:' + this.url);
     return this.url;
   }
 
@@ -96,7 +98,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 
   Future getDocs() async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("saved_recipes").get();
+    await FirebaseFirestore.instance.collection("saved_recipes").get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       var a = querySnapshot.docs[i];
       print(a.get('id'));
@@ -113,21 +115,13 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
             elevation: 10,
             child: Center(child: Icon(Icons.pie_chart, color: Colors.white)),
             onPressed: () {
-              Navigator.of(context).push(_createRoute());
+              // launch should be async, and we're supposed to call it in an
+              // async function. This is bad practice so far, but it works well
+              // enough.
+              launch(url);
+              // Navigator.of(context).push(_createRoute());
             }),
-        appBar: AppBar(
-          title: Text('Recipe Details'),
-          actions: <Widget>[
-            FlatButton(
-              textColor: Colors.white,
-              onPressed: () {
-                saveRecipe();
-              },
-              child: Text("Save"),
-              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-            )
-          ],
-        ),
+        appBar: AppBar(title: Text('Recipe Details')),
         body: SafeArea(
           child: ListView(
             children: <Widget>[
@@ -271,13 +265,14 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   }
 
   //rout to move to other screen
+  // Obsolete. Not used as launch(url) from url_launcher is used
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(
-          mealType: "1",
-          id: widget.id,
-          recipe: Recipe.fromMap({'spoonacularSourceUrl': url})),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        mealType: "1",
+        id: widget.id,
+        recipe: Recipe.fromMap({'spoonacularSourceUrl': url})),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
         var curve = Curves.ease;
@@ -564,8 +559,7 @@ class SavedRecipe {
 
 class FireStoreService {
   final CollectionReference _recipesCollectionReference =
-      FirebaseFirestore.instance.collection("saved_recipes");
-
+  FirebaseFirestore.instance.collection("saved_recipes");
   Future addRecipe(SavedRecipe recipe) async {
     if (recipe.sourceurl == null) {
       print('url was null');
