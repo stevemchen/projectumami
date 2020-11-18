@@ -59,22 +59,22 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.blue,
       onPressed: () {
-        // signInWithGoogle().then((result) {
-        //   if (result != null) {
-        //     Navigator.of(context).push(
-        //       MaterialPageRoute(
-        //         builder: (context) {
-        //           return FirstScreen();
-        //         },
-        //       ),
-        //     );
-        //   }
-        // }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) {return SearchRecipePage();} //ResultsPage();}
-          ),
-        );
+        signInWithGoogle().then((result) {
+          if (result != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return SearchRecipePage();
+                },
+              ),
+            );
+          }
+        });
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //       builder: (context) {return SearchRecipePage();} //ResultsPage();}
+        //   ),
+        // );
         // dbSave();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

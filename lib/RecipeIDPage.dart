@@ -1,19 +1,16 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:umami/ProductionInfo.dart';
 import 'package:umami/models/recipe_model.dart';
 import 'package:umami/spoonacular.dart';
 import 'package:umami/ui/screens/recipe_screen.dart';
 import 'package:umami/models/IngredientID.dart';
 import 'package:umami/models/NutrientID.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'package:umami/ui/screens/theme.dart';
 
 class RecipeIdPage extends StatelessWidget {
   @override
@@ -98,7 +95,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
 
   Future getDocs() async {
     QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection("saved_recipes").get();
+        await FirebaseFirestore.instance.collection("saved_recipes").get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       var a = querySnapshot.docs[i];
       print(a.get('id'));
@@ -110,7 +107,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
     return Scaffold(
         resizeToAvoidBottomPadding: true,
         floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
+            backgroundColor: PrimaryColor,
             tooltip: 'Product Information',
             elevation: 10,
             child: Center(child: Icon(Icons.pie_chart, color: Colors.white)),
@@ -123,6 +120,7 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
             }),
         appBar: AppBar(
           title: Text('Recipe Details'),
+          backgroundColor: PrimaryColor,
           actions: <Widget>[
             FlatButton(
               textColor: Colors.white,
@@ -281,10 +279,10 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => RecipeScreen(
-        mealType: "1",
-        id: widget.id,
-        recipe: Recipe.fromMap({'spoonacularSourceUrl': url})),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          mealType: "1",
+          id: widget.id,
+          recipe: Recipe.fromMap({'spoonacularSourceUrl': url})),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
         var curve = Curves.ease;
@@ -571,7 +569,7 @@ class SavedRecipe {
 
 class FireStoreService {
   final CollectionReference _recipesCollectionReference =
-  FirebaseFirestore.instance.collection("saved_recipes");
+      FirebaseFirestore.instance.collection("saved_recipes");
   Future addRecipe(SavedRecipe recipe) async {
     if (recipe.sourceurl == null) {
       print('url was null');

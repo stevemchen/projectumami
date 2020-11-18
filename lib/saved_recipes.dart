@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-
+import 'package:umami/ui/screens/theme.dart';
 import 'package:umami/RecipeIDPage.dart';
 
 // class SavedRecipePage extends StatefulWidget {
@@ -61,6 +61,7 @@ class SavedRecipePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Saved Recipes'),
+        backgroundColor: PrimaryColor,
       ),
       body: widg(),
     );
