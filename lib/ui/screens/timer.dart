@@ -10,17 +10,47 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:umami/ui/screens/theme.dart';
-import 'package:toast/toast.dart';
 import 'package:umami/Sidebar.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:umami/notification_widget.dart';
+import 'package:umami/notification_helper.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 
 class TimerPage extends StatefulWidget {
+  final String payload;
+
+  const TimerPage({
+    @required this.payload,
+    Key key,
+  }) : super(key: key);
+
   @override
   _TimerPageState createState() => _TimerPageState();
 }
 
 class _TimerPageState extends State<TimerPage> {
+  final notifications = FlutterLocalNotificationsPlugin();
+
+  void initState() {
+    super.initState();
+
+    final settingsAndroid = AndroidInitializationSettings('app_icon');
+    final settingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: (id, title, body, payload) =>
+            onSelectNotification(payload));
+
+    notifications.initialize(
+        InitializationSettings(settingsAndroid, settingsIOS),
+        onSelectNotification: onSelectNotification
+    );
+  }
+
+  Future onSelectNotification(String payload) async => await Navigator.push(
+    context, MaterialPageRoute(builder: (context) => TimerPage(payload: payload)),
+  );
+
   @override
   int hour = 0;
   int min = 0;
@@ -42,6 +72,7 @@ class _TimerPageState extends State<TimerPage> {
     ), (Timer t) {
       setState(() {
         if (time < 1 || checktimer == false){
+          // showOngoingNotification(notifications, title: 'Umami', body: 'The timer is up');
           t.cancel();
           checktimer = true;
           displaytime = "";
@@ -82,12 +113,12 @@ class _TimerPageState extends State<TimerPage> {
 
   Widget timer() {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 6,
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
@@ -170,20 +201,17 @@ class _TimerPageState extends State<TimerPage> {
                 ),
               ],
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              displaytime,
-              style: TextStyle(
-                fontSize: 35.0,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                displaytime,
+                style: TextStyle(
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RaisedButton(
@@ -224,8 +252,8 @@ class _TimerPageState extends State<TimerPage> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -243,7 +271,20 @@ class _TimerPageState extends State<TimerPage> {
         elevation: 0.0,
       ),
       drawer: SideBar(),
-      body: timer(),
+      body: ListView(
+        padding: const EdgeInsets.all(10),
+        children: [
+          timer(),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(
+              Icons.add_circle,
+              size: 30.0,
+            ),
+            label: Text('Add a timer'),
+          ),
+        ],
+      ),
     );
   }
 }

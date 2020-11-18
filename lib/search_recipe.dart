@@ -437,7 +437,20 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                           SizedBox(width: 10.0),
                           Expanded(
                             child: TextField(
-                              onChanged: (value) {},
+                              onChanged: (text) {
+                                _fecthSearch();
+                                setState(() {
+                                  query = _controller.text;
+                                  setState(() {
+                                    numberValue = 10;
+                                    url = baseUrl + query + number + numberValue.toString() + key;
+                                  });
+                                });
+                              },
+                              controller: _controller,
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                 hintText: "Search",
                                 hintStyle: TextStyle(
@@ -476,12 +489,9 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                   InkWell(
                                     splashColor: Colors.blue,
                                     onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (_) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                                         return RecipeIdPageMain(
-                                            image: search.baseUri +
-                                                search.result[index].image
-                                                    .toString(),
+                                            image: search.baseUri + search.result[index].image.toString(),
                                             id: search.result[index].id,
                                             title: search.result[index].title);
                                       }));
@@ -512,7 +522,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                             });
                       } else if (snapshot.hasError) {
                         return Center(
-                            child: Text('An error ocur: ${snapshot.error}'));
+                            child: Text('An error occurred: ${snapshot.error}'));
                       }
                       return Center(
                         child: Container(
@@ -696,7 +706,9 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
 
 class Company {
   String name;
+
   Company(this.name);
+
   static List<Company> getCompanies() {
     return <Company>[
       Company('Apple'),
