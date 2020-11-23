@@ -10,6 +10,9 @@ import 'package:umami/ui/screens/login.dart';
 import 'package:umami/ui/screens/theme.dart';
 import 'package:umami/ui/screens/timer.dart';
 
+import 'ProfilePage.dart';
+import 'SettingsPage.dart';
+
 class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,11 @@ class SideBar extends StatelessWidget {
           ListTile(
             title: Text('My Account'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return ProfilePage();
+                })
+              );
             },
           ),
           ListTile(
@@ -96,7 +103,7 @@ class SideBar extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+                    return SettingsPage();
                   }),
                 );
               },
