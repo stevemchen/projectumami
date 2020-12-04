@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:toast/toast.dart';
+
 class SearchRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -113,6 +115,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   int offset = 0;
   String message = '';
   var response;
+  bool _isColorTile = false;
   int _positionTile = 0;
 
   final String baseUrl = 'https://api.spoonacular.com/recipes/search?query=';
@@ -230,10 +233,38 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
     }
   }
 
+  Future<Search> _fecthSearch2() async {
+    setState(() {
+      url = baseUrl + _controller.text + number + numberValue.toString() + key;
+    });
+    http.Response response = await http.get(url);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return Search.fromJson(json);
+    } else {
+      throw Exception('failed to load search recipe');
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  _onSubmit() {
+    setState(() {
+      query = _controller.text;
+      url = baseUrl + query + key;
+    });
+  }
+
+  _onChange() {
+    setState(() {
+      query = _controller.text;
+      url = baseUrl + query + key;
+      print('query: $query');
+    });
   }
 
   _moveDown() {
@@ -267,7 +298,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
       key: _scaffoldKey,
       floatingActionButton: isEndScroll == false
           ? FloatingActionButton(
-          backgroundColor: PrimaryColor,
+              backgroundColor: PrimaryColor,
               elevation: 5,
               child: Center(
                   child: Icon(Icons.arrow_downward,
@@ -299,131 +330,86 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
         child: Container(
           child: ListView(
             children: <Widget>[
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10.0, top: 10),
-              //   child: Text('FOOD RECIPES',
-              //       style: TextStyle(
-              //         color: Colors.blue,
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w400,
-              //       )),
-              // ),
-              // Container(
-              //     padding: EdgeInsets.all(10),
-              //     height: 60,
-              //     width: double.infinity,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: <Widget>[
-              //         Container(
-              //             height: 50,
-              //             width: 50,
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.only(
-              //                     bottomLeft: Radius.circular(10),
-              //                     topLeft: Radius.circular(10)),
-              //                 color: Colors.blue.shade400),
-              //             child: Center(
-              //                 child: Icon(Icons.search,
-              //                     size: 16, color: Colors.white))),
-              //         Container(
-              //             width:
-              //                 MediaQuery.of(context).size.width - 50 - 10 - 10,
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.only(
-              //                   bottomRight: Radius.circular(10),
-              //                   topRight: Radius.circular(10),
-              //                 ),
-              //                 border: Border.all(
-              //                   color: Colors.grey.withOpacity(.4),
-              //                   width: 1,
-              //                 )),
-              //             child: TextField(
-              //                 // onSubmitted: _onSubmit(),
-              //                 // onChanged: _onChange(),
-              //                 // focusNode: _focusNode(),
-              //                 onChanged: (text) {
-              //                   _fecthSearch();
-              //                   setState(() {
-              //                     query = _controller.text;
-              //                     setState(() {
-              //                       numberValue = 10;
-              //                       url = baseUrl +
-              //                           query +
-              //                           number +
-              //                           numberValue.toString() +
-              //                           key;
-              //                     });
-              //                     //this code continue to get totalResult
-              //                   });
-              //                 },
-              //                 //auto focus alway open soft keyboard when init page
-              //                 controller: _controller,
-              //                 keyboardType: TextInputType.text,
-              //                 textAlign: TextAlign.center,
-              //                 // maxLength: 20,
-              //                 autocorrect: false,
-              //                 textCapitalization: TextCapitalization.words,
-              //                 decoration: InputDecoration(
-              //                     border: InputBorder.none,
-              //                     suffixIcon: IconButton(
-              //                         icon: Icon(Icons.arrow_drop_down),
-              //                         onPressed: () {
-              //                           _showDropDown(context);
-              //                         }),
-              //                     // helperText: 'Search Recipe',
-              //                     hintText: 'Search Recipe Here',
-              //                     hintMaxLines: 1,
-              //                     hintStyle: TextStyle(
-              //                         color: Colors.grey.withOpacity(.4),
-              //                         fontSize: 15)))),
-              //       ],
-              //     )),
-              Stack(
-                children: [
-                  Container(
-                    height: (60.0),
-                    decoration: BoxDecoration(
-                      color: PrimaryColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 10,
-                    right: 10,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextField(
-                              onChanged: (value) {},
-                              decoration: InputDecoration(
-                                hintText: "Search",
-                                hintStyle: TextStyle(
-                                  color: PrimaryColor.withOpacity(0.5),
-                                ),
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 10),
+                child: Text('FOOD RECIPES',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    )),
               ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  height: 60,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  topLeft: Radius.circular(10)),
+                              color: PrimaryColor),
+                          child: Center(
+                              child: Icon(Icons.search,
+                                  size: 16, color: Colors.white))),
+                      Container(
+                          width:
+                              MediaQuery.of(context).size.width - 50 - 10 - 10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(.4),
+                                width: 1,
+                              )),
+                          child: TextField(
+                              // onSubmitted: _onSubmit(),
+                              // onChanged: _onChange(),
+                              // focusNode: _focusNode(),
+                              onChanged: (text) {
+                                _fecthSearch();
+                                setState(() {
+                                  query = _controller.text;
+                                  setState(() {
+                                    numberValue = 10;
+                                    url = baseUrl +
+                                        query +
+                                        number +
+                                        numberValue.toString() +
+                                        key;
+                                  });
+                                  //this code continue to get totalResult
+                                });
+                              },
+                              //auto focus alway open soft keyboard when init page
+                              controller: _controller,
+                              keyboardType: TextInputType.text,
+                              textAlign: TextAlign.center,
+                              // maxLength: 20,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  suffixIcon: IconButton(
+                                      icon: Icon(Icons.arrow_drop_down),
+                                      onPressed: () {
+                                        _showDropDown(context);
+                                      }),
+                                  // helperText: 'Search Recipe',
+                                  hintText: 'Search Recipe here',
+                                  hintMaxLines: 1,
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey.withOpacity(.4),
+                                      fontSize: 15)))),
+                    ],
+                  )),
               Stack(children: <Widget>[
                 Container(
                   height: MediaQuery.of(context).size.height - 122,
@@ -481,7 +467,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                           subtitle: Text(
                                               'Servings: ${search.result[index].servings}    Prep Time: ${search.result[index].readyInMinutes} min'),
                                           title: Text(
-                                              '-ID: ${search.result[index].id} - ${search.result[index].title} - ${search.totalResults.toString()}')),
+                                              ' ${search.result[index].title}')),
                                     ),
                                   ),
                                   Divider(color: Colors.blue.shade400),
@@ -490,7 +476,7 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                             });
                       } else if (snapshot.hasError) {
                         return Center(
-                            child: Text('An error occurred: ${snapshot.error}'));
+                            child: Text('An error ocur: ${snapshot.error}'));
                       }
                       return Center(
                         child: Container(
@@ -504,14 +490,14 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                   ),
                 ),
                 Positioned(
-                    bottom: 70,
+                    bottom: 50,
                     child: GestureDetector(
                       onTap: isClickable
                           ? () {
                               //use toast
                               //use dropdown banner
                               DropdownBanner.showBanner(
-                                text: 'Loaded 10 more Recipe!',
+                                text: 'Load more 10 Recipe!',
                                 color: Colors.blue.shade400,
                                 textStyle: TextStyle(
                                     color: Colors.white,
@@ -535,7 +521,6 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                                   'Load more 10+ recipe +$isClickable+$numberValue');
                             }
                           : null,
-                      // uncommented following lines to regain functionality
                       child: Container(
                         height: 50,
                         width: 150,
@@ -547,10 +532,13 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
                             gradient: isFindButton == true
                                 ? LinearGradient(
                                     colors: [PrimaryColor, PrimaryColor])
-                                : LinearGradient(colors: [PrimaryColor, PrimaryColor])),
+                                : LinearGradient(colors: [
+                                    Colors.red.shade600,
+                                    Colors.red.shade200
+                                  ])),
                         child: Container(
                             child: Center(
-                                child: Text('find 10 more',
+                                child: Text('find more 10+',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -566,6 +554,62 @@ class _SearchRecipePageState extends State<SearchRecipePage> {
   }
 
   //row search video
+  _buildItemRow(
+      {String title, Color color, IconData icon, BuildContext context}) {
+    return GestureDetector(
+      onTap: () {
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoPage()));
+      },
+      child: Container(
+          margin: EdgeInsets.only(right: 10),
+          height: 35,
+          width: 100,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: Colors.blue.shade300,
+              )),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 2,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    height: 31,
+                    width: 31,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                        child: Icon(icon, color: Colors.white, size: 12))),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(title,
+                    style: TextStyle(color: Colors.black54, fontSize: 14))
+              ],
+            ),
+          )),
+    );
+  }
+
+  _useScaffoldSnackbar() {
+    return _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: new DecoratedBox(
+        decoration: BoxDecoration(),
+        child: Text('Load more 10 recipe'),
+      ),
+      duration: Duration(seconds: 3),
+    ));
+  }
+
+  _useToast() {
+    return Toast.show("load more 10 recipe", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+  }
 
   //show dropdown
   _showDropDown(BuildContext context) {

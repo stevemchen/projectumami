@@ -213,8 +213,8 @@ class _RecipeIdPageMainState extends State<RecipeIdPageMain> {
                                       return Container(
                                         width: 175,
                                         margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.blue.shade100),
+                                        decoration:
+                                            BoxDecoration(color: PrimaryColor),
                                         child: ListTile(
                                           title: Text(snapshot
                                               .data.ingredients[index].name),

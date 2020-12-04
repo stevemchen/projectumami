@@ -3,7 +3,7 @@ import 'package:umami/ui/screens/login.dart';
 import 'package:umami/ui/screens/first_screen.dart';
 import 'package:umami/ui/screens/results.dart';
 import 'package:umami/ui/screens/theme.dart';
-import 'package:umami/ui/screens/settings.dart';
+import 'package:umami/Settings.dart';
 
 class RecipesApp extends StatelessWidget {
   @override

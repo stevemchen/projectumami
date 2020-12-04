@@ -4,12 +4,6 @@ import 'dart:async';
 import 'package:umami/ui/screens/theme.dart';
 import 'package:umami/RecipeIDPage.dart';
 
-// class SavedRecipePage extends StatefulWidget {
-//   final List<String> recipes = getDocs();
-//   @override
-//   _SavedRecipePageState createState() => _SavedRecipePageState();
-// }
-
 class SavedRecipePage extends StatelessWidget {
   @override
   Widget widg() {
@@ -25,18 +19,18 @@ class SavedRecipePage extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     final item = snapshot.data[index].get('title');
-                    final rid = snapshot.data[index].get('id');
                     return Dismissible(
                         key: Key(item),
                         onDismissed: (direction) {
-                          snapshot.data.removeAt(index);
+                          snapshot.data.removeAt(index - 1);
+                          print(index);
                           FirebaseFirestore.instance.runTransaction(
                               (Transaction myTransaction) async {
                             await myTransaction
                                 .delete(snapshot.data[index].reference);
                           });
                           Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text("$item dismissed")));
+                              SnackBar(content: Text("$item deleted")));
                         },
                         child: ListTile(
                           leading: Icon(Icons.fastfood),

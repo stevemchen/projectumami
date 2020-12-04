@@ -1,11 +1,11 @@
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:umami/ProfilePage.dart';
 import 'package:umami/saved_recipes.dart';
-import 'package:umami/ui/screens/settings.dart';
+import 'package:umami/Settings.dart';
 import 'package:umami/search_recipe.dart';
 // import '../../sign_in.dart';
-// import 'first_screen.dart';
 import 'package:umami/ui/screens/login.dart';
 import 'package:umami/ui/screens/theme.dart';
 import 'package:umami/ui/screens/timer.dart';
@@ -45,7 +45,11 @@ class SideBar extends StatelessWidget {
           ListTile(
             title: Text('My Account'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return ProfilePage();
+                }),
+              );
             },
           ),
           ListTile(
@@ -78,25 +82,13 @@ class SideBar extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            title: Text('History'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: Text('My Shopping List'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
           Container(
             alignment: Alignment(-1, 0),
             child: FlatButton.icon(
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+                    return SettingsPage();
                   }),
                 );
               },
