@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:umami/search_recipe.dart';
 import '../../sign_in.dart';
-import 'first_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -49,18 +49,23 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.blue,
       onPressed: () {
-        signInWithGoogle().then((result) {
-          if (result != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return FirstScreen();
-                },
+        // signInWithGoogle().then((result) {
+        //   if (result != null) {
+        //     Navigator.of(context).push(
+        //       MaterialPageRoute(
+        //         builder: (context) {
+        //           return SearchRecipePage();
+        //         },
+        //       ),
+        //     );
+        //   }
+        // });
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return SearchRecipePage();
+          } //ResultsPage();}
               ),
-            );
-          }
-        });
-        // dbSave();
+        );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
